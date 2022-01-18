@@ -1,0 +1,217 @@
+Largest BST
+Send Feedback
+Given a Binary tree, find the largest BST subtree. That is, you need to find the BST with maximum height in the given binary tree. You have to return the height of largest BST.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The data of the nodes of the tree is separated by space. If any node does not have left or right child, take -1 in its place. Since -1 is used as an indication whether the left or right nodes exist, therefore, it will not be a part of the data of any node.
+Output format:
+The first and only line of output contains the height of the largest BST.
+Constraints:
+Time Limit: 1 second
+Sample Input 1:
+5 10 6 2 3 -1 -1 -1 -1 -1 9 -1 -1
+Sample Output 1:
+2
+
+
+
+//Main Code
+
+    
+//  class Largest_BST
+//    {
+       
+//        int min;
+//        int max;
+//        boolean isbst;
+//        int height;
+       
+//        public Largest_BST(int min, int max, boolean isbst, int height)
+//        {
+//            this.min=min;
+//            this.max=max;
+//            this.isbst=isbst;
+//            this.height=height;
+           
+//        }
+//    }
+
+// public class Solution {
+// 	/*
+// 	 * BinaryTreeNode class
+// 	 * 
+// 	 * class BinaryTreeNode<T> 
+// 	 * { 
+// 	 * 		T data; 
+// 	 * 		BinaryTreeNode<T> left; 
+// 	 * 		BinaryTreeNode<T> right;
+// 	 *		public BinaryTreeNode(T data) 
+// 	 *		{
+// 	 *  		this.data = data; 
+// 	 *  	} 
+// 	 *  }
+// 	 */
+
+    
+    
+    
+ 
+//     public static int largestBSTSubtree(BinaryTreeNode<Integer> root) 
+//     {
+//         Largest_BST bst=  BSTSubtree(root);
+//         return bst.height;
+        
+//     }
+// 	static int bst_height=0;
+// 	public static Largest_BST BSTSubtree(BinaryTreeNode<Integer> root) {
+        
+        
+//         if(root==null)
+//         {
+//             Largest_BST BST = new Largest_BST(Integer.MAX_VALUE,Integer.MIN_VALUE, true,0  );
+//             return BST;
+//         }
+        
+//         Largest_BST left_ANS=BSTSubtree(root.left);
+//         Largest_BST right_ANS=BSTSubtree(root.right);
+        
+//         int min=Math.min(root.data,Math.min(left_ANS.min,right_ANS.min));
+//         int max=Math.max(root.data,Math.max(left_ANS.max,right_ANS.max));
+//         int height=Math.max(left_ANS.height,right_ANS.height)+1;
+//         boolean isbst=true;
+        
+//         if(left_ANS.max>=root.data)
+//         {
+//             isbst=false;
+//         }
+        
+//         if(right_ANS.min<root.data)
+//         {
+//             isbst=false;
+//         }
+        
+//         if(!left_ANS.isbst)
+ 
+//         {
+//             isbst=false;
+            
+//         }
+        
+//         if(!right_ANS.isbst)
+//         {
+//             isbst=false;
+//         }
+        
+        
+        
+ 
+        
+        
+//         Largest_BST BST= new Largest_BST(max,min,isbst,height);
+     
+//         return BST;
+        
+        
+        
+        
+// 		// Write your code here
+// 	}
+
+// }
+
+
+public class Solution {
+
+/*	Binary Tree Node class
+ * 
+ * class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+		
+		public BinaryTreeNode(T data) {
+			this.data = data;
+		}
+    }
+*/
+	
+    public static int minimum(BinaryTreeNode<Integer> root) {
+	if(root==null)
+		return Integer.MAX_VALUE;
+	return Math.min(root.data, Math.min(minimum(root.left), minimum(root.right)));
+	
+}
+public static int maximum(BinaryTreeNode<Integer> root) {
+	
+	if(root==null)
+		return Integer.MAX_VALUE;
+	
+	return Math.max(root.data, Math.max(maximum(root.left),maximum(root.right)));
+}
+
+//=========================================================================================
+ public static int height(BinaryTreeNode<Integer> root){
+     
+     if(root==null)
+         return 0;
+     
+     int lh=height(root.left);
+     int rh= height(root.right);
+         
+     
+     return (1+Math.max(lh,rh));
+     
+ }
+    
+ // =============================================================================   
+  public static boolean isBST3(BinaryTreeNode<Integer> root) {
+	  if(root==null) {
+			return true;
+	  }
+			int max= Integer.MAX_VALUE;
+			int min = Integer.MIN_VALUE;
+			return isBST3(root, min, max);
+		}
+		
+		public static boolean isBST3(BinaryTreeNode<Integer> root,int min,int max) {
+			if(root==null) {
+				return true;
+				
+			}
+			
+			if(root.data < min || root.data > max) {
+				return false;
+			}
+			
+			
+			boolean isLeftOk= isBST3(root.left, min, root.data-1);
+			boolean isRightOk= isBST3(root.right, root.data, max);
+			return isLeftOk && isRightOk;
+			
+	
+			
+		}
+//================================================================================================================    
+    
+	static int maxHeight=0;
+	public static int largestBSTSubtree(BinaryTreeNode<Integer> root) {
+		largestBSTSubtreeHelper(root);
+        return maxHeight;
+	
+	}
+		public static void  largestBSTSubtreeHelper(BinaryTreeNode<Integer> root) {
+		if(root==null)
+            return ;
+            
+		boolean isBst=isBST3(root);
+        if(isBst){
+            int h=height(root);
+            if(h>maxHeight)
+                maxHeight=h;
+            
+        }
+            
+            // left Ans 
+            largestBSTSubtreeHelper(root.left);
+            largestBSTSubtreeHelper(root.right);       
+	}
+}
